@@ -1,4 +1,4 @@
-from functions import *
+from Convertor.functions import *
 import pandas as pd
 
 def test_transpose_of_column():
@@ -62,9 +62,9 @@ def test_transpose_of_data():
 
 def test_multiplying_columns():
 
-    true_csv=pd.read_csv("sheet_tests\\test_multiplying_columns\\sheet_correct_multiplying_columns.csv",sep=";")
+    true_csv=pd.read_csv("Convertor\\sheet_tests\\test_multiplying_columns\\sheet_correct_multiplying_columns.csv",sep=";")
     true_csv = true_csv. dropna(axis=1)
-    df=pd.read_excel("sheet_tests\\test_multiplying_columns\\sheet_test_multiplying_columns.xlsx",header=0)
+    df=pd.read_excel("Convertor\\sheet_tests\\test_multiplying_columns\\sheet_test_multiplying_columns.xlsx",header=0)
 
     false_csv=multiplying_columns(df,"cantidad")
 
@@ -93,9 +93,9 @@ def test_extraction_data():
               "11":"NOVIEMBRE",
               "12":"DICIEMBRE",}
     
-    true_csv=pd.read_csv("sheet_tests\\test_data_extraction\\correct.csv",sep=";",dtype=str,converters={"cantidad":int()})
+    true_csv=pd.read_csv("Convertor\\sheet_tests\\test_data_extraction\\correct.csv",sep=";",dtype=str,converters={"cantidad":int()})
     
-    df=pd.read_csv("sheet_tests\\test_data_extraction\\dataframe_for_function.csv",sep=";")
+    df=pd.read_csv("Convertor\\sheet_tests\\test_data_extraction\\dataframe_for_function.csv",sep=";")
 
     false_csv=data_extraction(df)
 
@@ -120,10 +120,10 @@ def test_extraction_data():
 
 def test_extraction_placa():
     
-    true_csv=pd.read_csv("sheet_tests\\test_sheet_extraction_placa\\correct.csv",sep=";",dtype=str,converters={"cantidad":int()},na_values="")
+    true_csv=pd.read_csv("Convertor\\sheet_tests\\test_sheet_extraction_placa\\correct.csv",sep=";",dtype=str,converters={"cantidad":int()},na_values="")
     true_csv.fillna("",inplace=True)
     
-    df=pd.read_excel("sheet_tests\\test_sheet_extraction_placa\\test.xlsx",header=0)
+    df=pd.read_excel("Convertor\\sheet_tests\\test_sheet_extraction_placa\\test.xlsx",header=0)
 
     false_csv=extraction_placa(df,8)
 
@@ -143,8 +143,8 @@ def test_extraction_placa():
 
 def test_from_number_columns_to_csv():
 
-    true_csv=pd.read_csv("sheet_tests\\test_sheet_transpose\\sheet_correct_1.csv",sep=";",dtype=str,converters={"PL.":int()}, na_filter=False)
-    sheet=pd.read_excel("sheet_tests\\test_sheet_transpose\\sheet_test_1.xlsx",header=0)
+    true_csv=pd.read_csv("Convertor\\sheet_tests\\test_sheet_transpose\\sheet_correct_1.csv",sep=";",dtype=str,converters={"PL.":int()}, na_filter=False)
+    sheet=pd.read_excel("Convertor\\sheet_tests\\test_sheet_transpose\\sheet_test_1.xlsx",header=0)
 
     false_csv=transpose_of_data(sheet,8)
 
@@ -163,5 +163,33 @@ def test_from_number_columns_to_csv():
         print(false_csv)
 
         raise
+
+
+def test_words_in_line_extraction():
+
+    true_csv=pd.read_csv("Convertor\\sheet_tests\\test_words_in_line_extraction\\correct.csv",sep=";",dtype=str,converters={"cantidad":int()},na_values="")
+    true_csv.fillna("",inplace=True)
+    
+    df=pd.read_excel("Convertor\\sheet_tests\\test_words_in_line_extraction\\test.xlsx",header=0)
+
+    false_csv = words_in_line_extraction(df,8)
+
+    false_csv = false_csv.astype(str)
+    true_csv = true_csv.astype(str)
+
+    #assert pd.testing.assert_frame_equal(false_csv,true_csv) is None #Check for documentation of pd.testing.assert_frame_equal
+
+    try:
+        assert pd.testing.assert_frame_equal(false_csv,true_csv) is None #Check for documentation of pd.testing.assert_frame_equal
+    except AssertionError:
+        print("Expected csv:")
+        print(true_csv)
+        print("You csv:")
+        print(false_csv)
+
+        raise
+
+
+    
 
 

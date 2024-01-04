@@ -166,5 +166,30 @@ def extraction_placa(dataframe_by_reference:pd.DataFrame,number_columns:int):
 
   return dataframe_transposed
 
+def words_in_line_extraction(dataframe_by_reference:pd.DataFrame,number_columns:int, sep_word:str=r" / ",column_names:list= ["n","L","p"]):
+  """
+  Function for the extraction of columns in csv by a separator: sep_word
+
+  :param dataframe_by_reference:
+  :param sep_word dataframe_by_reference:
+  :param column_names: name of columns
+  :param number_columns: number of columns in the final csv
+
+  :return: A dataframe with the columns
+  """
+
+  column_initial_name=dataframe_by_reference.columns[0]
+
+  dataframe_transformed = dataframe_by_reference[column_initial_name].str.split(r' / ', expand=True)
+
+  dataframe_transformed.columns = column_names
+
+  dataframe_transposed=transpose_of_data(dataframe_transformed,number_columns)
+
+  return dataframe_transposed
+
+
+
+
 
 
